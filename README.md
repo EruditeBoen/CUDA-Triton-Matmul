@@ -4,7 +4,7 @@
 
 **Environment**
 
-- **OS**: Linux WSL2 and Windows 11
+- **OS**: Windows 11
 - **GPU**: NVIDIA 3090Ti
 - **CUDA**: CUDA toolkit 13.3
 - **PyTorch**: PyTorch 2.12.0
