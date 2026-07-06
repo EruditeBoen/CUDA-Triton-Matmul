@@ -92,8 +92,3 @@ Times below are medians measured by the harness (seconds) and derived GFLOP/s us
 - Add more robust timing (e.g., `torch.cuda.Event` for GPU timing) and larger trial counts for statistical confidence.
 - Add automated CI checks for correctness using small matrices and CPU-only runs.
 - Provide a small Jupyter notebook that reproduces the benchmarks and visualizes results interactively.
-
----
-
-If you want, I can (a) re-run the benchmarks here and paste fresh numbers, or (b) add a `build.sh` + `requirements.txt` and a small test harness to reproduce the figures automatically. Which would you prefer?
-
