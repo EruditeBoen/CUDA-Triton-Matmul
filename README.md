@@ -29,3 +29,14 @@
 | 2048 | Tiled        | 0.012170149999292335   | 1411.639888168919  |
 | 2048 | PyTorch CPU  | 0.01724534999812022    | 996.2029872326536  |
 | 2048 | PyTorch CUDA | 0.0007073999986459967  | 24285.93330065484  |
+
+**How to Run**
+
+*kernels*
+nvcc -O2 -o matmul kernels/matmul.cu
+nvcc -O2 -o matmul_tiled kernels/matmul_tiled.cu
+
+*benchmarks*
+python benchmarks/benchmark_cuda.py
+python benchmarks/benchmark_cuda.py
+python benchmarks/benchmark_cuda.py
