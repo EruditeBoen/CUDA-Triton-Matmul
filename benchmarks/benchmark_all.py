@@ -5,8 +5,8 @@ import matplotlib.pyplot as plt
 
 from benchmark import harness
 
-lib_naive = ctypes.CDLL("./matmul.dll")
-lib_tiled = ctypes.CDLL("./matmul_tiled.dll")
+lib_naive = ctypes.CDLL("./kernels/matmul.dll")
+lib_tiled = ctypes.CDLL("./kernels/matmul_tiled.dll")
 
 lib_naive.matmul_gpu.restype = None
 lib_tiled.matmul_gpu.restype = None
@@ -82,7 +82,7 @@ for size in sizes:
     numpy_min = numpy[1]
     numpy_gflops = 2 * size**3 / numpy_median / 1e9
     numpy_res.append(numpy_gflops)
-    print(f'numpy size {size}: median={numpy_median}s, min={numpy_min}s')
+    print(f'numpy size {size}: median={numpy_median}s, min={numpy_min}s, gflops={numpy_gflops}GFLOP/s')
 
     m_naive1 = m_np1
     m_naive2 = m_np2
@@ -91,7 +91,7 @@ for size in sizes:
     naive_min = naive[1]
     naive_gflops = 2 * size**3 / naive_median / 1e9
     naive_res.append(naive_gflops)
-    print(f'naive size {size}: median={naive_median}s, min={naive_min}s')
+    print(f'naive size {size}: median={naive_median}s, min={naive_min}s, gflops={naive_gflops}GFLOP/s')
 
     m_tiled1 = m_np1
     m_tiled2 = m_np2
@@ -100,7 +100,7 @@ for size in sizes:
     tiled_min = tiled[1]
     tiled_gflops = 2 * size**3 / tiled_median / 1e9
     tiled_res.append(tiled_gflops)
-    print(f'tiled size {size}: median={tiled_median}s, min={tiled_min}s')
+    print(f'tiled size {size}: median={tiled_median}s, min={tiled_min}s, gflops={tiled_gflops}GFLOP/s')
 
     m_th_cpu1 = torch.from_numpy(m_np1)
     m_th_cpu2 = torch.from_numpy(m_np2)
@@ -109,7 +109,7 @@ for size in sizes:
     cpu_min = cpu[1]
     cpu_gflops = 2 * size**3 / cpu_median / 1e9
     cpu_res.append(cpu_gflops)
-    print(f'cpu size {size}: median={cpu_median}s, min={cpu_min}s')
+    print(f'cpu size {size}: median={cpu_median}s, min={cpu_min}s, gflops={cpu_gflops}GFLOP/s')
 
     m_th_cuda1 = m_th_cpu1.to('cuda')
     m_th_cuda2 = m_th_cpu2.to('cuda')
@@ -118,7 +118,7 @@ for size in sizes:
     cuda_min = cuda[1]
     cuda_gflops = 2 * size**3 / cuda_median / 1e9
     cuda_res.append(cuda_gflops)
-    print(f'cuda size {size}: median={cuda_median}s, min={cuda_min}s')
+    print(f'cuda size {size}: median={cuda_median}s, min={cuda_min}s, gflops={cuda_gflops}GFLOP/s')
 
     ref = numpy[2]
     print(f"Size {size} CPU match:", np.allclose(cpu[2].numpy(), ref, rtol=1e-3, atol=1e-5))
