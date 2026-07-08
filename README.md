@@ -1,6 +1,8 @@
-## Project goal
+# CUDA Matrix Multiplication Benchmark
 
-- **Goal**: Implement and benchmark several matrix-multiplication implementations (pure Python, NumPy, PyTorch, and custom CUDA kernels) and compare throughput and correctness.
+This project benchmarks matrix multiplication across pure Python, NumPy, PyTorch, and custom CUDA kernels. I implemented both a naive CUDA kernel and a tiled shared-memory CUDA kernel, then compared their correctness and performance across multiple matrix sizes.
+
+The goal was to understand how GPU acceleration, memory movement, kernel design, and benchmarking methodology affect real performance compared to optimized libraries like PyTorch/cuBLAS.
 
 ---
 
