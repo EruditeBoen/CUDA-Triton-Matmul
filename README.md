@@ -6,6 +6,17 @@ The goal was to understand how GPU acceleration, memory movement, kernel design,
 
 ---
 
+## What This Project Demonstrates
+
+- Implemented custom CUDA kernels for matrix multiplication.
+- Used shared-memory tiling to reduce redundant global memory reads.
+- Benchmarked pure Python, NumPy, PyTorch, naive CUDA, and tiled CUDA implementations.
+- Verified numerical correctness against NumPy reference outputs.
+- Analyzed why optimized libraries like PyTorch/cuBLAS outperform naive custom kernels.
+- Identified benchmarking limitations involving synchronization, memory allocation, and host-device transfers.
+
+---
+
 ## Environment
 
 - **OS**: `Windows 11`
