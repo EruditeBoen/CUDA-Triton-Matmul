@@ -79,7 +79,11 @@ I used `np.allclose` to check that the numbers coming from `matmul_gpu` match wh
 
 ## Known Limitations
 
-Both custom kernels allocate and free three device buffers in `matmul_gpu` on every call. These are expensive, synchronous operations. PyTorch allocates GPU memory once and keeps tensors on the device across calls. Memory copying is also an expensive task the custom kernels do. Every call copies $A$ and $B$ from host to device and $C$ back from device to host across PCIe. For a $2048 \times 2048$ float32 matrix, that's about $40\text{ MB}$ crossing PCIe per call. PyTorch tensors created with `.cuda()` live permanently on the device.
+The custom CUDA benchmarks currently include end-to-end overhead from device memory allocation, host-to-device copies, device-to-host copies, kernel execution, and synchronization. This means the reported timing is not a pure kernel execution measurement.
+
+This matters because PyTorch CUDA tensors can remain allocated on the GPU during benchmarking, while the custom CUDA wrapper currently allocates memory and transfers data on each call. As a result, the custom CUDA measurements should be interpreted as end-to-end wrapper performance rather than isolated kernel performance.
+
+A future version will use CUDA events and Nsight profiling to separate memory allocation, PCIe transfer time, and kernel execution time.
 
 ## Future Improvements
 
