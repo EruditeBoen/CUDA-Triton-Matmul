@@ -80,3 +80,12 @@ I used `np.allclose` to check that the numbers coming from `matmul_gpu` match wh
 ## Known Limitations
 
 Both custom kernels allocate and free three device buffers in `matmul_gpu` on every call. These are expensive, synchronous operations. PyTorch allocates GPU memory once and keeps tensors on the device across calls. Memory copying is also an expensive task the custom kernels do. Every call copies $A$ and $B$ from host to device and $C$ back from device to host across PCIe. For a $2048 \times 2048$ float32 matrix, that's about $40\text{ MB}$ crossing PCIe per call. PyTorch tensors created with `.cuda()` live permanently on the device.
+
+## Future Improvements
+
+- Use CUDA events to isolate kernel execution time from end-to-end runtime.
+- Separate memory allocation, host-device transfer time, kernel execution time, and synchronization overhead.
+- Add Nsight Systems or Nsight Compute profiling to identify bottlenecks.
+- Add non-square matrix tests for general M x K times K x N multiplication.
+- Compare the CUDA kernels against a Triton implementation.
+- Implement a more optimized tiled kernel using register blocking and larger tile sizes.
