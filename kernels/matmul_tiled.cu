@@ -44,7 +44,7 @@ extern "C" __declspec(dllexport) void matmul_gpu(const float* A, const float* B,
     cudaMalloc(&dC, M * N * sizeof(float));
 
     cudaMemcpy(dA, A, M * K * sizeof(float), cudaMemcpyHostToDevice);
-    cudaMemcpy(dB, B, M * N * sizeof(float), cudaMemcpyHostToDevice);
+    cudaMemcpy(dB, B, K * N * sizeof(float), cudaMemcpyHostToDevice);
 
     dim3 threads(16, 16);
     dim3 blocks((N + 15) / 16, (M + 15) / 16);
