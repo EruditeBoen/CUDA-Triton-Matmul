@@ -63,7 +63,7 @@ def multiply_matrices(a, b):
 a = np.random.rand(128, 128)
 b = np.random.rand(128, 128)
 
-pure = harness(100, 20, multiply_matrices, a, b)
+pure = harness(3, 5, multiply_matrices, a, b)
 
 sizes = [512, 1024, 2048]
 
@@ -77,7 +77,7 @@ rng = np.random.default_rng(42)
 for size in sizes:
     m_np1 = rng.random((size, size)).astype(np.float32)
     m_np2 = rng.random((size, size)).astype(np.float32)
-    numpy = harness(100, 20, np.matmul, m_np1, m_np2)
+    numpy = harness(3, 10, np.matmul, m_np1, m_np2)
     numpy_median = numpy[0]
     numpy_min = numpy[1]
     numpy_gflops = 2 * size**3 / numpy_median / 1e9
@@ -86,7 +86,7 @@ for size in sizes:
 
     m_naive1 = m_np1
     m_naive2 = m_np2
-    naive = harness(100, 20, matmul_naive, m_naive1, m_naive2)
+    naive = harness(3, 10, matmul_naive, m_naive1, m_naive2)
     naive_median = naive[0]
     naive_min = naive[1]
     naive_gflops = 2 * size**3 / naive_median / 1e9
@@ -95,7 +95,7 @@ for size in sizes:
 
     m_tiled1 = m_np1
     m_tiled2 = m_np2
-    tiled = harness(100, 20, matmul_tiled, m_tiled1, m_tiled2)
+    tiled = harness(3, 10, matmul_tiled, m_tiled1, m_tiled2)
     tiled_median = tiled[0]
     tiled_min = tiled[1]
     tiled_gflops = 2 * size**3 / tiled_median / 1e9
@@ -104,7 +104,7 @@ for size in sizes:
 
     m_th_cpu1 = torch.from_numpy(m_np1)
     m_th_cpu2 = torch.from_numpy(m_np2)
-    cpu = harness(100, 20, torch.matmul, m_th_cpu1, m_th_cpu2)
+    cpu = harness(3, 10, torch.matmul, m_th_cpu1, m_th_cpu2)
     cpu_median = cpu[0]
     cpu_min = cpu[1]
     cpu_gflops = 2 * size**3 / cpu_median / 1e9
@@ -113,7 +113,7 @@ for size in sizes:
 
     m_th_cuda1 = m_th_cpu1.to('cuda')
     m_th_cuda2 = m_th_cpu2.to('cuda')
-    cuda = harness(100, 20, torch.matmul, m_th_cuda1, m_th_cuda2, sync=True)
+    cuda = harness(3, 10, torch.matmul, m_th_cuda1, m_th_cuda2, sync=True)
     cuda_median = cuda[0]
     cuda_min = cuda[1]
     cuda_gflops = 2 * size**3 / cuda_median / 1e9
