@@ -96,6 +96,12 @@ This matters because PyTorch CUDA tensors can remain allocated on the GPU during
 
 A future version will use CUDA events and Nsight profiling to separate memory allocation, PCIe transfer time, and kernel execution time.
 
+## Profiling Note
+
+I ran a preliminary Nsight Systems pass to inspect the benchmark timeline. The trace confirmed that the custom CUDA path includes more than kernel execution: each call also includes device memory allocation, host-to-device copies, device-to-host copies, and synchronization. This supports treating the current custom CUDA timings as end-to-end wrapper measurements rather than isolated kernel measurements.
+
+Future profiling work will use CUDA events and Nsight Compute to separate kernel execution time from memory movement and inspect occupancy, memory throughput, and shared-memory behavior.
+
 ## Future Improvements
 
 - Use CUDA events to isolate kernel execution time from end-to-end runtime.
@@ -105,8 +111,3 @@ A future version will use CUDA events and Nsight profiling to separate memory al
 - Compare the CUDA kernels against a Triton implementation.
 - Implement a more optimized tiled kernel using register blocking and larger tile sizes.
 
-## Profiling Note
-
-I ran a preliminary Nsight Systems pass to inspect the benchmark timeline. The trace confirmed that the custom CUDA path includes more than kernel execution: each call also includes device memory allocation, host-to-device copies, device-to-host copies, and synchronization. This supports treating the current custom CUDA timings as end-to-end wrapper measurements rather than isolated kernel measurements.
-
-Future profiling work will use CUDA events and Nsight Compute to separate kernel execution time from memory movement and inspect occupancy, memory throughput, and shared-memory behavior.
